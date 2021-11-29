@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1 id="loading">...Loading</h1>
+    </div>
+    <div>
+        <h1 id="author"></h1>
+        <p id="text"></p>
+        <button id="button" style="display: none;">Next</button>
+    </div>
+    <script>
+        const api= "https://type.fit/api/quotes";
+        const loading=document.getElementById("loading");
+        const author=document.getElementById("author");
+        const text=document.getElementById("text");
+        const button=document.getElementById("button");
+        // fetch(api).then((response)=>{
+        //     let data = response.json();
+        //     loading.style.display="none";
+        //     return data;
+        // }).then((data)=> console.log(data));
+        let getNewQuotes=(quotes)=>{
+            let randomnum=Math.floor(Math.random() * 1610);
+            console.log(randomnum);
+            let quotetext=quotes[randomnum].text;
+            let quoteauthor=quotes[randomnum].author;
+            // if (quoteauthor==null){
+            //     author.innerText="Unknown";
+            // }
+            // else {
+            //     author.innerText=quoteauthor;
+            // }
+            quoteauthor==null ? (author.innerText="Unknown") : (author.innerText=quoteauthor);
+            text.innerText=quotetext;
+        }
+        let getQuotes=async ()=>{
+            const api= "https://type.fit/api/quotes";
+            try {
+                let data = await fetch(api);
+                let realdata=await data.json();
+                loading.style.display="none";
+                button.style.display="block";
+                getNewQuotes(realdata);
+            }
+            catch(error){
+                console.log(error);
+            }        
+        }
+        button.addEventListener("click",getQuotes);
+        getQuotes();
+        //the most used way to fetch an api
+    </script>
+</body>
+</html>
